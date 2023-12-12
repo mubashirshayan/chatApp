@@ -56,7 +56,7 @@ export default function Login() {
                  onChange={(e)=>{
                                  setEmail(e.target.value)
                                     }} value={email} 
-                required className="block w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                required className="block w-full  p-3 rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
             </div>
       
@@ -64,7 +64,7 @@ export default function Login() {
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                  <a href="#" className="font-semibold  text-indigo-600 hover:text-indigo-500">Forgot password?</a>
                 </div>
               </div>
               <div className="mt-2">
@@ -72,7 +72,7 @@ export default function Login() {
                  onChange={(e)=>{
                                               setPassword(e.target.value)
                                     }} value={password}
-                required className="block w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                required className="block w-full p-3 rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
               </div>
             </div>
              <br>

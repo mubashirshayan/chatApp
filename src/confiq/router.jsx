@@ -1,9 +1,10 @@
 import { BrowserRouter, Navigate, Route, Router, Routes } from "react-router-dom";
 import { useContext,useEffect } from "react";
- import Register from "../pages/register";
+
 import Login from "../pages/login";
 import Chat from "../pages/chat";
 import Profile from "../pages/profile";
+import Signup from "../pages/signup";
 import { GlobalContext } from "../context/context";
 import axios from "axios";
 
@@ -37,7 +38,7 @@ function AppRouter() {
        <>
           {/* <Routes>
                 <Route path="/" element={<Chat/>} />
-                 <Route path="/profile" element={<Profile/>} />
+                 <Route path="/signup" element={<Signup/>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 </Routes> */}
@@ -50,8 +51,7 @@ function AppRouter() {
              <Route path="*" element={<Navigate to="/" replace={true}/>} />
             </Routes>):(<Routes>
                 <Route path="/login" element={<Login/>} />
-                <Route path="/register" element={<Register/>} />
-               
+                <Route path="/signup" element={<Signup/>} />
                 <Route path="*" element={<Navigate to="/login" replace={true}/>} />
             </Routes>)
             }

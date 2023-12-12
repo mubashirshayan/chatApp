@@ -24,7 +24,7 @@ import { AiOutlineLogout } from "react-icons/ai"
 import axios from 'axios';
 
 export default function Chat() {
-  
+
     const [messageInputValue, setMessageInputValue] = useState("");
     const [userData, setUserdata] = useState([]);
     const [selecteduserData, setSelecteduserData] = useState("");
@@ -32,20 +32,18 @@ export default function Chat() {
     const [chat, setchat] = useState(null);
     const [chatId, setChatId] = useState("");
     const [responsive, setResponsive] = useState(null)
-    const [chatUi,setChatui]=useState(false)
+    const [chatUi, setChatui] = useState(false)
     let { state, dispatch } = useContext(GlobalContext);
 
 
 
     let logoutHandler = () => {
         try {
-            console.log(
-                "logout"
-            )
+
             axios.post("http://localhost:8000/api/v1/user/logout", {}, {
                 withCredentials: true,
             })
-
+            { localStorage.clear() }
         } catch (err) {
             console.log(err)
 
@@ -81,11 +79,11 @@ export default function Chat() {
 
             const id = selecteduserData._id;
 
-            let response = await axios.get(`http://localhost:8000/api/v1/message/${id}`,{
-                withCredentials:true,
+            let response = await axios.get(`http://localhost:8000/api/v1/message/${id}`, {
+                withCredentials: true,
             })
-                console.log(response)
-      
+            console.log(response)
+
             setchat(response.data.messagedata)
         } catch (err) {
             console.log(err.message)
@@ -93,9 +91,9 @@ export default function Chat() {
         }
     }
     useEffect(() => {
-    getAllmessage()
+        getAllmessage()
 
-}, [selecteduserData])
+    }, [selecteduserData])
 
     useEffect(() => {
 
@@ -106,18 +104,18 @@ export default function Chat() {
         socket.on("connect_error", (err) => {
             console.log(`connect_error due to ${err.message}`);
         });
-        
+
         console.log("subscribed: ", `${state.user.id}-${selecteduserData._id}`);
         socket.on(`${state.user.id}-${selecteduserData._id}`, (populatedData) => {
-            console.log("message-received",populatedData)
-           setchat(prev=>[...prev,populatedData])
+            console.log("message-received", populatedData)
+            setchat(prev => [...prev, populatedData])
 
-       });
+        });
 
-        return ()=>{
-             socket.close()
-            }
-     
+        return () => {
+            socket.close()
+        }
+
 
     }, [selecteduserData])
 
@@ -129,26 +127,26 @@ export default function Chat() {
     }
     let messageSent = async () => {
         try {
-               
+
             let response = await axios.post("http://localhost:8000/api/v2/message", {
                 content: messageInputValue,
                 recevier: selecteduserData._id,
-            },{
-                withCredentials:true,
-               })
-              //console.log(response)
-                 getAllmessage()
+            }, {
+                withCredentials: true,
+            })
+            //console.log(response)
+            getAllmessage()
             setMessageInputValue("");
-          
-       
-            
-       
-        } catch(error) {
+
+
+
+
+        } catch (error) {
             console.log(error.message)
         }
     }
 
-    
+
 
 
 
@@ -163,8 +161,8 @@ export default function Chat() {
         <div className='container' style={{
             height: "600px",
             position: "relative",
-       
-              
+
+
         }}>
 
             {responsive ?
@@ -206,7 +204,7 @@ export default function Chat() {
                             </ConversationHeader.Actions>
 
                         </ConversationHeader>
-                        <Search placeholder="Search..." />
+                        {/* <Search placeholder="Search..." /> */}
 
 
                         <ConversationList>
@@ -219,47 +217,48 @@ export default function Chat() {
                             </Conversation>)}
                         </ConversationList>
                     </Sidebar>
-                    { chatUi&&chatUi?
-                    <ChatContainer>
-                        <ConversationHeader>
-                            <ConversationHeader.Back onClick={toggle} />
-                            <Avatar src={"https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png"} name="Zoe" />
-                            <ConversationHeader.Content userName={selecteduserData.name} />
+                    {chatUi && chatUi ?
+                        <ChatContainer>
+                            <ConversationHeader>
+                                <ConversationHeader.Back onClick={toggle} />
+                                <Avatar src={"https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png"} name="Zoe" />
+                                <ConversationHeader.Content userName={selecteduserData.name} />
 
-                        </ConversationHeader>
-                        <MessageList typingIndicator={<TypingIndicator content="Zoe is typing" />}>
-                            <MessageSeparator content="Saturday, 30 November 2019" />
-                     
-                            {chat && chat.map((data, index) => state.user.id == data.sender._id ? <Message key={index} model={{
-                                message: data.content,
-                                sentTime: "15 mins ago",
-                                sender: data.sender.name,
-                                direction: "outgoing",
-                                position: "single"
-                            }}>
-                                   
-                            </Message> : <Message key={index} model={{
-                                message: data.content,
-                                sentTime: "15 mins ago",
-                                sender: data.recevier.name,
-                                direction: "incoming",
-                                position: "single"
-                            }}>
-                             <Message.Header sender={data.sender.name}  />
-                            </Message>
-                            )}
-                        
+                            </ConversationHeader>
+                            <MessageList >
+                                {/* <MessageSeparator content="Saturday, 30 November 2019" /> */}
 
-                        </MessageList>
-                        <MessageInput placeholder="Type message here message" value={messageInputValue} onChange={val => setMessageInputValue(val)}
-                            onSend={() => messageSent(selecteduserData._id)}
-                        />
+                                {chat && chat.map((data, index) => state.user.id == data.sender._id ? <Message key={index} model={{
+                                    message: data.content,
+                                    sentTime: "15 mins ago",
+                                    sender: data.sender.name,
+                                    direction: "outgoing",
+                                    position: "single"
+                                }}>
 
-                    </ChatContainer>:<div>Please select a User Chat</div>}
+                                </Message> : <Message key={index} model={{
+                                    message: data.content,
+                                    sentTime: "15 mins ago",
+                                    sender: data.recevier.name,
+                                    direction: "incoming",
+                                    position: "single"
+                                }}>
+                                    <Message.Header sender={data.sender.name} />
+                                </Message>
+                                )}
+
+
+                            </MessageList>
+                            <MessageInput placeholder="Type message here message" value={messageInputValue} onChange={val => setMessageInputValue(val)}
+                                onSend={() => messageSent(selecteduserData._id)}
+                            />
+
+                        </ChatContainer> : <div className='emptydiv'><h1>Please Select User </h1></div>}
 
                 </MainContainer>
+
             }
-        </div>
+        </div >
 
 
     )

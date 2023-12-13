@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef, useMemo, useContext } from 'react'
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { GlobalContext } from '../context/context';
 import { io } from 'socket.io-client';
-import "../style/chat.css"
+import "../style/chat.css";
+import moment from 'moment';
 import {
     MainContainer,
     ChatContainer,
@@ -82,7 +83,7 @@ export default function Chat() {
             let response = await axios.get(`http://localhost:8000/api/v1/message/${id}`, {
                 withCredentials: true,
             })
-            console.log(response)
+           
 
             setchat(response.data.messagedata)
         } catch (err) {
@@ -105,7 +106,7 @@ export default function Chat() {
             console.log(`connect_error due to ${err.message}`);
         });
 
-        console.log("subscribed: ", `${state.user.id}-${selecteduserData._id}`);
+       
         socket.on(`${state.user.id}-${selecteduserData._id}`, (populatedData) => {
             console.log("message-received", populatedData)
             setchat(prev => [...prev, populatedData])
@@ -186,7 +187,7 @@ export default function Chat() {
 
                                 selectData(v)
                             }}>
-                                <Avatar src={"https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png"} name={v.name} status="available" />
+                                <Avatar src={"https://static-00.iconduck.com/assets.00/user-icon-2048x2048-ihoxz4vq.png"} name={v.name}  />
                             </Conversation>)}
                         </ConversationList>
                     </Sidebar>
@@ -204,7 +205,7 @@ export default function Chat() {
                             </ConversationHeader.Actions>
 
                         </ConversationHeader>
-                        {/* <Search placeholder="Search..." /> */}
+                    
 
 
                         <ConversationList>
@@ -235,7 +236,7 @@ export default function Chat() {
                                     direction: "outgoing",
                                     position: "single"
                                 }}>
-
+ <Message.Footer sentTime={moment(data.createdAt).format(' h:mm a')} />
                                 </Message> : <Message key={index} model={{
                                     message: data.content,
                                     sentTime: "15 mins ago",
@@ -243,7 +244,8 @@ export default function Chat() {
                                     direction: "incoming",
                                     position: "single"
                                 }}>
-                                    <Message.Header sender={data.sender.name} />
+                                    <Message.Header sender={data.sender.name}  />
+                                     <Message.Footer   sentTime={moment(data.createdAt).format(' h:mm a')} />
                                 </Message>
                                 )}
 
@@ -253,10 +255,15 @@ export default function Chat() {
                                 onSend={() => messageSent(selecteduserData._id)}
                             />
 
-                        </ChatContainer> : <div className='emptydiv'><h1>Please Select User </h1></div>}
+                        </ChatContainer> : <ChatContainer>  <ConversationHeader>
+                                <ConversationHeader.Back onClick={toggle} />
+                                
+                                <ConversationHeader.Content userName="Please select user chat" />
 
+                            </ConversationHeader></ChatContainer>}
+                     
                 </MainContainer>
-
+        
             }
         </div >
 

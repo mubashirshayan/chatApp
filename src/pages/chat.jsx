@@ -158,7 +158,7 @@ export default function Chat() {
 
     return (
 
-
+      <div className='main-container'>
         <div className='container' style={{
             height: "600px",
             position: "relative",
@@ -191,7 +191,7 @@ export default function Chat() {
                             </Conversation>)}
                         </ConversationList>
                     </Sidebar>
-                    <div className='msgBox'><h5>Please select</h5></div>
+                   
                 </div>
 
                 :
@@ -266,6 +266,7 @@ export default function Chat() {
         
             }
         </div >
+        </div>
 
 
     )
